@@ -9,6 +9,7 @@ import com.google.zxing.Result;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        Timber.plant(new Timber.DebugTree());
     }
 
     @OnClick(R.id.btnScanCode)
@@ -36,13 +38,13 @@ public class MainActivity extends AppCompatActivity {
         scannerView.stopCamera();
     }
 
-    class ZXingScannerResultHandler implements ZXingScannerView.ResultHandler{
+    public class ZXingScannerResultHandler implements ZXingScannerView.ResultHandler{
 
         @Override
         public void handleResult(Result result) {
             String resultCode = result.getText();
             Toast.makeText(MainActivity.this, resultCode, Toast.LENGTH_SHORT).show();
-
+            Timber.d(resultCode);
             setContentView(R.layout.activity_main);
             scannerView.stopCamera();
         }
